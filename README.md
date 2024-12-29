@@ -34,3 +34,22 @@ export DB_PORT="3306"
 export DB_USER="root"
 export DB_PASSWORD="password"
 export DB_NAME="test"
+```
+# Usage
+Run the service:
+
+```bash
+python main.py
+```
+The service will be available at http://localhost:5000.
+
+# Endpoint
+/is-db-alive
+**Method**: GET
+**Response**:
+200 OK: If the database connection is successful.
+500 Internal Server Error: If the database connection fails.
+Example:
+```bash
+curl http://localhost:5000/is-db-alive
+```
