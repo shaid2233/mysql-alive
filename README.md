@@ -1,6 +1,6 @@
 # Database Health Check Service
 
-This is a lightweight Flask-based HTTP service that checks the availability of a MySQL database. The service exposes an endpoint at `/health`, which returns the database connection status.
+This is a lightweight Flask-based HTTP service that checks the availability of a MySQL database. 
 
 ## Features
 
