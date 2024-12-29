@@ -35,12 +35,8 @@ def is_mysql_alive():
     # You can add other host and port pairs as needed for testing
 ])
 def test_is_db_alive(db_host, db_port):
-    # Set the necessary environment variables for the test
-    os.environ['DB_HOST'] = db_host
-    os.environ['DB_PORT'] = db_port
-    os.environ['DB_USER'] = 'root'  # Ensure the correct user is used
-    os.environ['DB_PASSWORD'] = '123456'  # Ensure the correct password is used
-
+    SERVER_HOST = os.getenv('SERVER_HOST', 'localhost')
+    SERVER_PORT = os.getenv('SERVER_PORT', '5000')
     # Retry to connect to the MySQL service with exponential backoff
     max_retries = 5
     base_delay = 1  # 1 second initial delay
@@ -55,7 +51,7 @@ def test_is_db_alive(db_host, db_port):
         pytest.fail("Failed to connect to MySQL database after several attempts.")
 
     # Test the actual Flask endpoint
-    response = requests.get(f'http://localhost:5000/is-db-alive')
+    response = requests.get(f'http://{SERVER_HOST}:{SERVER_PORT}/is-db-alive')
 
     # Assert that the response is successful (HTTP status code 200)
     assert response.status_code == 200
