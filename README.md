@@ -14,6 +14,7 @@ This is a lightweight Flask-based HTTP service that checks the availability of a
 # Configuration
 Set the following environment variables to configure the database connection:
 
+
 |Variable |	Default | Value |	Description|
 --------------------------------------
 |DB_HOST |	localhost |	Hostname of the MySQL server.|
