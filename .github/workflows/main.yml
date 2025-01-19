@@ -1,4 +1,4 @@
-name: MySQL and pytest
+name: MySQL and pytes
 
 on: 
   pull_request:
