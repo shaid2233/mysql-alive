@@ -10,6 +10,9 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
+    env:
+      MYSQL_ROOT_PASSWORD: ${{ secrets.MYSQL_ROOT_PASSWORD }}
+      MYSQL_DATABASE: ${{ secrets.MYSQL_DATABASE }}
 
     steps:
       - name: Remove existing MySQL container
@@ -29,8 +32,8 @@ jobs:
           docker run -d \
             --name mysql-test \
             --network host \
-            -e MYSQL_ROOT_PASSWORD=123456 \
-            -e MYSQL_DATABASE=testdb \
+            -e MYSQL_ROOT_PASSWORD=${{ secrets.MYSQL_ROOT_PASSWORD }} \
+            -e MYSQL_DATABASE=${{ secrets.MYSQL_DATABASE }} \
             -p 3306:3306 \
             mysql:8.0
         
