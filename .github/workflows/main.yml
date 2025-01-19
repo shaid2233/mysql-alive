@@ -45,7 +45,7 @@ jobs:
         run: |
           # Wait for MySQL to be ready
           for i in {1..30}; do
-            if docker exec mysql-test mysqladmin ping -h localhost -u root -p123456 --silent; then
+            if docker exec mysql-test mysqladmin ping -h localhost -u ${{ secrets.DB_USER }} -p${{ secrets.MYSQL_ROOT_PASSWORD }} --silent; then
               echo "MySQL is ready"
               break
             fi
