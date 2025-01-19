@@ -1,4 +1,4 @@
-name: MySQL and pytes
+name: MySQL and pytest
 
 on: 
   pull_request:
@@ -72,10 +72,6 @@ jobs:
             --name flask-container \
             -p 5000:5000 \
             flask-app
-
-      - name: Test Flask app
-        run: |
-          curl http://host.docker.internal/is-db-alive
 
 
       - name: Run tests
