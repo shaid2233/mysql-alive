@@ -64,18 +64,30 @@ jobs:
           exit 1
         fi
 
-    - name: Build Docker image
-      run: |
-          docker builder prune -f
-          docker build --no-cache -t flask-app .
 
+    - name: Get unique image tag
+      id: vars
+      run: |
+          UNIQUE_TAG=$(git rev-parse --short HEAD)
+          echo "UNIQUE_TAG=${UNIQUE_TAG}" >> $GITHUB_ENV
+
+          
     - name: Build Docker image
       run: |
-          docker build -t flask-app .
+        docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/flask-app:${{ env.UNIQUE_TAG }}
+        
+    - name: Push Docker image to Docker Hub
+      run: |
+        docker push ${{ secrets.DOCKERHUB_USERNAME }}/flask-app:${{ env.UNIQUE_TAG }}
+
       
     - name: Start Flask app in the background
       run: |
-          docker run -d --network host -p 5000:5000 --name flask-container flask-app
+        docker run -d \
+          --name flask-container \
+          --network host \
+          -p 5000:5000 \
+          ${{ secrets.DOCKERHUB_USERNAME }}/flask-app:${{ env.UNIQUE_TAG }}
 
     - name: Run tests
       run: |
