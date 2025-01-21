@@ -26,7 +26,7 @@ jobs:
           docker run -d \
             --name mysql-test \
             --network host \
-            -e $MYSQL_ROOT_PASSWORD \
+            -e MYSQL_ROOT_PASSWORD=${{ secrets.MYSQL_ROOT_PASSWORD }} \
             -e MYSQL_DATABASE=${{ secrets.MYSQL_DATABASE }} \
             -p 3306:3306 \
             mysql:8.0
@@ -35,7 +35,7 @@ jobs:
       run: |
           # Wait for MySQL to be ready
           for i in {1..30}; do
-            if docker exec mysql-test mysqladmin ping -h $DB_HOST -u ${{ secrets.DB_USER }} -p${{ secrets.MYSQL_ROOT_PASSWORD }} --silent; then
+            if docker exec mysql-test mysqladmin ping -h $DB_HOST -u $DB_USER -p$MYSQL_ROOT_PASSWORD --silent; then
               echo "MySQL is ready"
               break
             fi
