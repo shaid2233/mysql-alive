@@ -74,7 +74,7 @@ jobs:
           
     - name: Build Docker image
       run: |
-        docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/flask-app:${{ env.UNIQUE_TAG }}
+        docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/flask-app:${{ env.UNIQUE_TAG }}  .
         
     - name: Push Docker image to Docker Hub
       run: |
