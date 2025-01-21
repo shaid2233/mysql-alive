@@ -26,7 +26,7 @@ jobs:
           docker run -d \
             --name mysql-test \
             --network host \
-            -e $DB_PASSWORD \
+            -e MYSQL_ROOT_PASSWORD=${{ secrets.MYSQL_ROOT_PASSWORD }} \
             -e MYSQL_DATABASE=${{ secrets.MYSQL_DATABASE }} \
             -p 3306:3306 \
             mysql:8.0
