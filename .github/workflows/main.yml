@@ -53,6 +53,17 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
+          
+    - name: Authenticate with Docker Hub
+      run: |
+        echo ${{ secrets.DOCKERHUB_TOKEN }} | docker login --username ${{ secrets.DOCKERHUB_USERNAME }} --password-stdin
+        if [ $? -eq 0 ]; then
+          echo "Successfully authenticated with Docker Hub"
+        else
+          echo "Authentication failed"
+          exit 1
+        fi
+
     - name: Build Docker image
       run: |
           docker builder prune -f
