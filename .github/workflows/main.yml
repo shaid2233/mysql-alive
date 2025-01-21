@@ -11,8 +11,8 @@ jobs:
   test:
     runs-on: ubuntu-latest
     env:
-      DB_HOST: localhost
-      DB_PORT: 3306
+      DB_HOST: ${{ secrets.DB_HOST }}
+      DB_PORT: ${{ secrets.DB_PORT }}
       DB_USER: ${{ secrets.DB_USER }}
       DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
       MYSQL_ROOT_PASSWORD: ${{ secrets.MYSQL_ROOT_PASSWORD }}
@@ -45,7 +45,7 @@ jobs:
         run: |
           # Wait for MySQL to be ready
           for i in {1..30}; do
-            if docker exec mysql-test mysqladmin ping -h localhost -u ${{ secrets.DB_USER }} -p${{ secrets.MYSQL_ROOT_PASSWORD }} --silent; then
+            if docker exec mysql-test mysqladmin ping -h $DB_HOST -u ${{ secrets.DB_USER }} -p${{ secrets.MYSQL_ROOT_PASSWORD }} --silent; then
               echo "MySQL is ready"
               break
             fi
