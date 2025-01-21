@@ -15,9 +15,8 @@ jobs:
       DB_PORT: ${{ secrets.DB_PORT }}
       DB_USER: ${{ secrets.DB_USER }}
       DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
-      MYSQL_ROOT_PASSWORD: ${{ secrets.DB_PASSWORD }}
+      MYSQL_ROOT_PASSWORD: ${{ secrets.MYSQL_ROOT_PASSWORD }}
       MYSQL_DATABASE: ${{ secrets.MYSQL_DATABASE }}
-      
 
     steps:
     - uses: actions/checkout@v3
@@ -27,7 +26,7 @@ jobs:
           docker run -d \
             --name mysql-test \
             --network host \
-            -e DB_PASSWORD=${{ secrets.DB_PASSWORD }} \
+            -e MYSQL_ROOT_PASSWORD=${{ secrets.MYSQL_ROOT_PASSWORD }} \
             -e MYSQL_DATABASE=${{ secrets.MYSQL_DATABASE }} \
             -p 3306:3306 \
             mysql:8.0
@@ -36,7 +35,7 @@ jobs:
       run: |
           # Wait for MySQL to be ready
           for i in {1..30}; do
-            if docker exec mysql-test mysqladmin ping -h $DB_HOST -u ${{ secrets.DB_USER }} -p${{ secrets.DB_PASSWORD }} --silent; then
+            if docker exec mysql-test mysqladmin ping -h $DB_HOST -u ${{ secrets.DB_USER }} -p${{ secrets.MYSQL_ROOT_PASSWORD }} --silent; then
               echo "MySQL is ready"
               break
             fi
@@ -70,5 +69,3 @@ jobs:
     - name: Run tests
       run: |
           pytest tests/test_app.py
-
-
