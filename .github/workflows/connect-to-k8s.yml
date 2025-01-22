@@ -1,0 +1,13 @@
+name: Test K8s Connection
+on: [push]
+jobs:
+  test-connection:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Set up kubeconfig
+        run: |
+          mkdir -p $HOME/.kube
+          echo "${{ secrets.KUBE_CONFIG }}" > $HOME/.kube/config
+          
+      - name: Test connection
+        run: kubectl get nodes
