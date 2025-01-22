@@ -19,7 +19,8 @@ jobs:
       MYSQL_DATABASE: ${{ secrets.MYSQL_DATABASE }}
 
     steps:
-    - uses: actions/checkout@v3
+    
+      - uses: actions/checkout@v3
 
 
       - name: Start MySQL
