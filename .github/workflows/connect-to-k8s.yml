@@ -1,13 +1,26 @@
-name: Test K8s Connection
+name: Test Kubernetes Cluster with Kind
+
 on: [push]
+
 jobs:
-  test-connection:
+  kind-cluster:
     runs-on: ubuntu-latest
     steps:
-      - name: Set up kubeconfig
+      - name: Set up Kind
         run: |
-          mkdir -p $HOME/.kube
-          echo "${{ secrets.KUBE_CONFIG }}" > $HOME/.kube/config
-          
-      - name: Test connection
+          curl -Lo ./kind https://kind.sigs.k8s.io/dl/latest/kind-linux-amd64
+          chmod +x ./kind
+          sudo mv ./kind /usr/local/bin/kind
+
+      - name: Create Kubernetes Cluster
+        run: kind create cluster --name test-cluster
+
+      - name: Verify Kubernetes Cluster
         run: kubectl get nodes
+
+      - name: Run Your Tests
+        run: |
+          # Replace this section with your specific tests
+          echo "Running your Kubernetes tests"
+          kubectl apply -f your-manifest.yaml
+          kubectl get pods -A
