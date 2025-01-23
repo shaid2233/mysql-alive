@@ -1,30 +1,26 @@
-name: Kubernetes Connectivity Test
+name: Kubernetes CI
 
-on: 
+on:
   pull_request:
-    types: [opened, reopened, synchronize]
-    branches:
-      - main
-      - dev
+    branches: [main, dev]
 
 jobs:
-  cluster-test:
+  kubernetes-test:
     runs-on: ubuntu-latest
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v3
-
-    - name: Setup Kubectl
-      uses: azure/setup-kubectl@v3
-
-    - name: Configure Kubernetes credentials
-      uses: azure/k8s-set-context@v3
+    - uses: actions/checkout@v3
+    
+    - name: Setup Kind Cluster
+      uses: helm/kind-action@v1.5.0
       with:
-        method: kubeconfig
-        kubeconfig: ${{ secrets.KUBE_CONFIG }}
+        version: v0.20.0
+        cluster_name: test-cluster
 
-    - name: Verify Cluster Connection
+    - name: Deploy Manifest
       run: |
-        kubectl version
-        kubectl get nodes
-        kubectl cluster-info
+        kubectl apply -f kubernetes/deployment.yaml
+
+    - name: Verify Deployment
+      run: |
+        kubectl get deployments
+        kubectl get pods
