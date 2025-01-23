@@ -1,4 +1,4 @@
-name: CI/CD Pipeline with External Repo
+name: CI/CD Pipeline with External Repo and Kind
 
 on:
   push:
@@ -18,13 +18,30 @@ jobs:
           token: ${{ secrets.OTHER_REPO_PAT }}
           path: external-repo
 
-      # Step 2: Install kubectl
+      # Step 2: Install Kind
+      - name: Install Kind
+        run: |
+          curl -Lo ./kind https://kind.sigs.k8s.io/dl/v0.18.0/kind-linux-amd64
+          chmod +x ./kind
+          sudo mv ./kind /usr/local/bin/kind
+
+      # Step 3: Create a Kubernetes Cluster using Kind
+      - name: Create Kubernetes Cluster
+        run: |
+          kind create cluster --name my-cluster
+
+      # Step 4: Install kubectl
       - name: Install kubectl
         uses: azure/setup-kubectl@v4
         with:
           version: 'v1.27.3' # Replace with the desired version or omit for latest
 
-      # Step 3: Apply deployment.yaml from the external repo
+      # Step 5: Apply deployment.yaml from the external repo
       - name: Apply Deployment
         run: |
           kubectl apply -f external-repo/deployment.yaml
+
+      # Optional Step 6: Verify the Kubernetes Cluster (e.g., get pods)
+      - name: Verify Kubernetes Cluster
+        run: |
+          kubectl get pods
