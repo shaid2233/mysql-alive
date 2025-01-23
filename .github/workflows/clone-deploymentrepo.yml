@@ -1,0 +1,28 @@
+name: CI/CD Pipeline with External Repo
+
+on:
+  push:
+    branches:
+      - main  # Trigger on pushes to the main branch
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Step 1: Checkout the current repository
+      - name: Checkout Current Repository
+        uses: actions/checkout@v4
+
+      # Step 2: Clone the external repository (deployment-mysql-alive)
+      - name: Clone External Repository
+        run: |
+          git clone https://github.com/shaid2233/deployment-mysql-alive.git external-repo
+        env:
+          GITHUB_TOKEN: ${{ secrets.OTHER_REPO_PAT }}
+
+      # Step 3: Apply deployment.yaml from the external repo
+      - name: Apply Deployment
+        run: |
+          kubectl apply -f external-repo/deployment.yaml
+
