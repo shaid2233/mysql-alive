@@ -1,0 +1,25 @@
+name: Kubernetes Connectivity Test
+
+on: [workflow_dispatch]
+
+jobs:
+  cluster-test:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Setup Kubectl
+      uses: azure/setup-kubectl@v3
+
+    - name: Configure Kubernetes credentials
+      uses: azure/k8s-set-context@v3
+      with:
+        method: kubeconfig
+        kubeconfig: ${{ secrets.KUBE_CONFIG }}
+
+    - name: Verify Cluster Connection
+      run: |
+        kubectl version
+        kubectl get nodes
+        kubectl cluster-info
