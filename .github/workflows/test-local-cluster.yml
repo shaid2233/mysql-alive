@@ -1,6 +1,11 @@
 name: Kubernetes Connectivity Test
 
-on: [workflow_dispatch]
+on: 
+  pull_request:
+    types: [opened, reopened, synchronize]
+    branches:
+      - main
+      - dev
 
 jobs:
   cluster-test:
