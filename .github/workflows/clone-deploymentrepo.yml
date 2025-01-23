@@ -18,7 +18,13 @@ jobs:
           token: ${{ secrets.OTHER_REPO_PAT }}
           path: external-repo
 
-      # Step 2: Apply deployment.yaml from the external repo
+      # Step 2: Install kubectl
+      - name: Install kubectl
+        uses: azure/setup-kubectl@v4
+        with:
+          version: 'v1.27.3' # Replace with the desired version or omit for latest
+
+      # Step 3: Apply deployment.yaml from the external repo
       - name: Apply Deployment
         run: |
           kubectl apply -f external-repo/deployment.yaml
