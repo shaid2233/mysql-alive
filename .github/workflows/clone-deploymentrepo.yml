@@ -20,4 +20,5 @@ jobs:
 
       # Step 2: Apply deployment.yaml from the external repo
       - name: Apply Deployment
-        run: 
+        run: |
+          kubectl apply -f external-repo/deployment.yaml
