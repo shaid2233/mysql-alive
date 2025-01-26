@@ -1,20 +1,21 @@
-name: Check yq Installation
+name: Setup yq
 
 on:
   push:
     branches:
-      - fear-br # Adjust branch as needed
+      - feat-br 
+      - dev      # Adjust branch as needed
 
 jobs:
   check-yq:
     runs-on: ubuntu-latest
     steps:
-      # Step 1: Check if yq is installed
-      - name: Check yq Installation
+      # Step 1: Use setup-yq action to ensure yq is installed
+      - name: Setup yq
+        uses: chrisdickinson/setup-yq@v1.0.0
+
+      # Step 2: Verify yq Installation
+      - name: Verify yq Installation
         run: |
-          if yq --version; then
-            echo "yq is installed.";
-          else
-            echo "yq is not installed.";
-            exit 1;
-          fi
+          yq --version
+          echo "yq is ready to use!"
