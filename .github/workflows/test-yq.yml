@@ -3,7 +3,7 @@ name: Check yq Installation
 on:
   push:
     branches:
-      - main  # Adjust branch as needed
+      - fear-br # Adjust branch as needed
 
 jobs:
   check-yq:
