@@ -11,8 +11,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       # Step 1: Use setup-yq action to ensure yq is installed
-      - name: Setup yq
-        uses: mikefarah/yq-action@v4
+      - name: 'Setup yq'
+        uses: dcarbone/install-yq-action@v1.3.0
 
       # Step 2: Verify yq Installation
       - name: Verify yq Installation
