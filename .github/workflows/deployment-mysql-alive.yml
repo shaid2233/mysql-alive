@@ -1,0 +1,29 @@
+name: github_output_example
+on:
+  push
+
+jobs:
+  job1:
+    outputs:
+      UNIQUE_TAG: # get output from the step
+    runs-on: ubuntu-latest
+    steps:
+      - name: generate unique tag
+        run: |
+          # example for github output: echo "UNIQUE_TAG"=ea12345" >> $GITHUB_OUTPUT
+  job2:
+    needs: # make dependency on job1
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout kubernetes manifest repo
+        uses: actions/checkout@v4
+        with:
+          repository: shaid/kubernetes_manifests
+          token: ${{ secrets.GITHUB_TOKEN }} # use a secret here
+          ref: main
+    
+      - name: modify_tag
+        env:
+          UNIQUE_TAG: #use needs to get the output
+        run: | 
+          # run yq to modify the deployment.yaml
