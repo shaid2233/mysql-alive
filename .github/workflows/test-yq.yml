@@ -1,0 +1,20 @@
+name: Check yq Installation
+
+on:
+  push:
+    branches:
+      - main  # Adjust branch as needed
+
+jobs:
+  check-yq:
+    runs-on: ubuntu-latest
+    steps:
+      # Step 1: Check if yq is installed
+      - name: Check yq Installation
+        run: |
+          if yq --version; then
+            echo "yq is installed.";
+          else
+            echo "yq is not installed.";
+            exit 1;
+          fi
