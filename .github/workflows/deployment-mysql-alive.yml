@@ -61,8 +61,8 @@ jobs:
       - name: Checkout Kubernetes manifest repo
         uses: actions/checkout@v3
         with:
-          repository: shaid/kubernetes_manifests
-          token: ${{ secrets.GITHUB_TOKEN }}
+          repository: shaid2233/kubernetes_manifests
+          token: ${{ secrets.OTHER_REPO_PAT }}
           ref: main
 
       - name: Setup yq
