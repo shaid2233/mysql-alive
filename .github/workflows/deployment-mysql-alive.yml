@@ -1,4 +1,4 @@
-name: github_output_example
+name: update deployment my-sql-alive
 
 on:
   push:
