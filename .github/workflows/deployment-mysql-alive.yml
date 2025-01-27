@@ -68,7 +68,7 @@ jobs:
         with:
           repository: shaid2233/kubernetes/deployment.yaml
           token: ${{ secrets.OTHER_REPO_PAT }}
-          ref: main
+          ref: feat-br
 
       - name: Setup yq
         uses: dcarbone/install-yq-action@v1.3.0
