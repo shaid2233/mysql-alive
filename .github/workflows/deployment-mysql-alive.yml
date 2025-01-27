@@ -85,6 +85,6 @@ jobs:
         run: |
           echo "Updating deployment.yaml with tag: $UNIQUE_TAG"
           # Example of modifying deployment.yaml with `yq`
-          yq e ".spec.template.spec.containers[0].image = \"my-image:$UNIQUE_TAG\"" -i deployment.yaml
+          yq e ".spec.template.spec.containers[0].image = \"mysql:$UNIQUE_TAG\"" -i deployment.yaml
 
 
