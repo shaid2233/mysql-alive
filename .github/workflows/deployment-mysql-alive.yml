@@ -1,29 +1,48 @@
 name: github_output_example
+
 on:
-  push
+  push:
 
 jobs:
   job1:
+    runs-on: ubuntu-latest
     outputs:
-      UNIQUE_TAG: # get output from the step
-    runs-on: ubuntu-latest
+      UNIQUE_TAG: ${{ steps.generate_tag.outputs.UNIQUE_TAG }}
     steps:
-      - name: generate unique tag
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Generate unique tag
+        id: generate_tag
         run: |
-          # example for github output: echo "UNIQUE_TAG"=ea12345" >> $GITHUB_OUTPUT
+          UNIQUE_TAG=$(git rev-parse --short HEAD)
+          echo "UNIQUE_TAG=${UNIQUE_TAG}" >> $GITHUB_OUTPUT
+
   job2:
-    needs: # make dependency on job1
+    needs: job1
     runs-on: ubuntu-latest
     steps:
-      - name: checkout kubernetes manifest repo
-        uses: actions/checkout@v4
+      - name: Checkout Kubernetes manifest repo
+        uses: actions/checkout@v3
         with:
           repository: shaid/kubernetes_manifests
-          token: ${{ secrets.GITHUB_TOKEN }} # use a secret here
+          token: ${{ secrets.GITHUB_TOKEN }}
           ref: main
-    
-      - name: modify_tag
+
+      - name: Setup yq
+        uses: dcarbone/install-yq-action@v1.3.0
+
+      - name: Verify yq Installation
+        run: |
+          yq --version
+          echo "yq is ready to use!"
+
+      - name: Modify deployment tag
         env:
-          UNIQUE_TAG: #use needs to get the output
-        run: | 
-          # run yq to modify the deployment.yaml
+          UNIQUE_TAG: ${{ needs.job1.outputs.UNIQUE_TAG }}
+        run: |
+          echo "Updating deployment.yaml with tag: $UNIQUE_TAG"
+          # Example of modifying deployment.yaml with `yq`
+          yq e ".spec.template.spec.containers[0].image = \"my-image:$UNIQUE_TAG\"" -i deployment.yaml
+
+
