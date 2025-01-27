@@ -68,7 +68,6 @@ jobs:
         with:
           repository: shaid2233/mysql-alive
           token: ${{ secrets.OTHER_REPO_PAT }}
-          path: external-repo
           ref: feat-br
 
       - name: Setup yq
@@ -85,7 +84,7 @@ jobs:
         run: |
           echo "Updating deployment.yaml with tag: $UNIQUE_TAG"
           # Example of modifying deployment.yaml with `yq`
-          yq e ".spec.template.spec.containers[0].image = \"mysql:$UNIQUE_TAG\"" -i external-repo/kubernetes/deployment.yaml
+          yq e ".spec.template.spec.containers[0].image = \"mysql:$UNIQUE_TAG\"" -i kubernetes/deployment.yaml
 
 
 
