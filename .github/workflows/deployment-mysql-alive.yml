@@ -66,9 +66,9 @@ jobs:
       - name: Checkout Kubernetes manifest repo
         uses: actions/checkout@v4
         with:
-          repository: shaid2233/deployment.yaml
+          repository: shaid2233/mysql-alive
           token: ${{ secrets.OTHER_REPO_PAT }}
-          path: kubernetes
+          path: external-repo
           ref: feat-br
 
       - name: Setup yq
