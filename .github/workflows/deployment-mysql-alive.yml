@@ -64,9 +64,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Kubernetes manifest repo
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
-          repository: shaid2233/kubernetes/deployment.yaml
+          repository: shaid2233/deployment-mysql-alive
           token: ${{ secrets.OTHER_REPO_PAT }}
           ref: feat-br
 
