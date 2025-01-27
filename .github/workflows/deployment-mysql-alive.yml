@@ -90,8 +90,16 @@ jobs:
 
 
       - name: Checkout repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
         with:
+          ref: feat-br
+          
+      - name: Checkout Kubernetes manifest repo
+        uses: actions/checkout@v4
+        with:
+          repository: shaid2233/mysql-alive
+          token: ${{ secrets.OTHER_REPO_PAT }}
+          path: external-repo
           ref: feat-br
 
       - name: Set up Git configuration
