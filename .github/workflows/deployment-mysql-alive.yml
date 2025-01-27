@@ -88,3 +88,14 @@ jobs:
           yq e ".spec.template.spec.containers[0].image = \"mysql:$UNIQUE_TAG\"" -i external-repo/kubernetes/deployment.yaml
 
 
+      - name: Commit and push changes
+        run: |
+          git config --global user.name "shaid2233"
+          git config --global user.email "shaidaniel27@gmail.com"
+          git add external-repo/deployment.yaml
+          git commit -m "Update MySQL image tag to mysql:$UNIQUE_TAG"
+          git push origin feat-br  # Replace 'feat-br' with your actual branch name if needed
+        env:
+          GITHUB_TOKEN: ${{ secrets.OTHER_REPO_PAT }}  # GitHub automatically provides this token for authenticated pushes
+
+
