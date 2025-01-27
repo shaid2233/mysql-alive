@@ -66,8 +66,9 @@ jobs:
       - name: Checkout Kubernetes manifest repo
         uses: actions/checkout@v4
         with:
-          repository: shaid2233/kubernetes/deployment.yaml
+          repository: shaid2233/deployment.yaml
           token: ${{ secrets.OTHER_REPO_PAT }}
+          path: kubernetes
           ref: feat-br
 
       - name: Setup yq
