@@ -90,9 +90,9 @@ jobs:
 
       - name: Commit and push changes
         run: |
-          git config --global user.name "shaid2233"
-          git config --global user.email "shaidaniel27@gmail.com"
-          git add external-repo/deployment.yaml
+          git config --global user.name "shaid2233"  # Your GitHub username
+          git config --global user.email "shaidaniel27@gmail.com"  # Your GitHub email
+          git add external-repo/kubernetes/deployment.yaml
           git commit -m "Update MySQL image tag to mysql:$UNIQUE_TAG"
           git push origin feat-br  # Replace 'feat-br' with your actual branch name if needed
         env:
