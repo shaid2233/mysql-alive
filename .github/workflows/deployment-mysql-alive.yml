@@ -88,17 +88,24 @@ jobs:
           yq e ".spec.template.spec.containers[0].image = \"mysql:$UNIQUE_TAG\"" -i external-repo/kubernetes/deployment.yaml
 
 
-      - name: Commit and push changes
+
+      - name: Checkout repository
+        uses: actions/checkout@v2
+        with:
+          ref: feat-br
+
+      - name: Set up Git configuration
         run: |
-          git init
-          git checkout feat-br
           git config --global user.name "shaid2233"  # Your GitHub username
           git config --global user.email "shaidaniel27@gmail.com"  # Your GitHub email
-          git remote add origin add https://github.com/shaid2233/mysql-alive.git
+
+
+      - name: Commit and push changes
+        run: |
           git add external-repo/
           git commit -m "Update MySQL image tag to mysql:$UNIQUE_TAG"
-          git push origin feat-br  # Replace 'feat-br' with your actual branch name if needed
+          git push origin feat-br  # Push to the existing branch 'feat-br'
         env:
-          GITHUB_TOKEN: ${{ secrets.OTHER_REPO_PAT }}  # GitHub automatically provides this token for authenticated pushes
+          GITHUB_TOKEN: ${{ secrets.OTHER_REPO_PAT }}  # GitHub automatically provides this
 
 
