@@ -93,7 +93,7 @@ jobs:
           git init
           git config --global user.name "shaid2233"  # Your GitHub username
           git config --global user.email "shaidaniel27@gmail.com"  # Your GitHub email
-          git add external-repo/kubernetes/deployment.yaml
+          git add external-repo/
           git commit -m "Update MySQL image tag to mysql:$UNIQUE_TAG"
           git push origin feat-br  # Replace 'feat-br' with your actual branch name if needed
         env:
