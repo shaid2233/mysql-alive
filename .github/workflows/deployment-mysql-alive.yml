@@ -103,7 +103,7 @@ jobs:
 
       - name: Commit and push changes
         run: |
-          git add external-repo/kubernetes/deployment.yaml
+          git add kubernetes/deployment.yaml
           git commit -m "Update MySQL image tag to mysql:$UNIQUE_TAG"
           git push origin feat-br  # Push to the existing branch 'feat-br'
         env:
