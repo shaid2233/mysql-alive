@@ -90,6 +90,7 @@ jobs:
 
       - name: Commit and push changes
         run: |
+          git init
           git config --global user.name "shaid2233"  # Your GitHub username
           git config --global user.email "shaidaniel27@gmail.com"  # Your GitHub email
           git add external-repo/kubernetes/deployment.yaml
