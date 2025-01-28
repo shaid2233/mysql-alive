@@ -71,6 +71,9 @@ jobs:
           repository: shaid2233/mysql-alive
           token: ${{ secrets.OTHER_REPO_PAT }} 
           ref: feat-br
+          
+      - name: Debug - Check File Contents
+        run: cat kubernetes/deployment.yaml
 
       - name: Setup yq
         uses: dcarbone/install-yq-action@v1.3.0
@@ -109,6 +112,7 @@ jobs:
 
       - name: Commit and push changes
         run: |
+          git status
           git add kubernetes/deployment.yaml
           git commit -m "Update MySQL image tag to mysql:$UNIQUE_TAG"
           git push origin feat-br  # Push to the existing branch 'feat-br'
