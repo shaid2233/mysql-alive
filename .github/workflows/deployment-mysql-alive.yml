@@ -91,6 +91,8 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
+          repository: shaid2233/mysql-alive
+          token: ${{ secrets.OTHER_REPO_PAT }} 
           ref: feat-br
           
 
