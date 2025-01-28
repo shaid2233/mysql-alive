@@ -101,6 +101,9 @@ jobs:
           git config --global user.name "shaid2233"  # Your GitHub username
           git config --global user.email "shaidaniel27@gmail.com"  # Your GitHub email
 
+      - name: Debug - Check File Contents
+        run: cat kubernetes/deployment.yaml
+
 
       - name: Commit and push changes
         run: |
