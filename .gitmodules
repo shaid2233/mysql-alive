@@ -1,0 +1,12 @@
+# Remove the submodule entry from git
+git submodule deinit -f external-repo
+
+# Remove the submodule from .git/modules
+rm -rf .git/modules/external-repo
+
+# Remove any potential leftover files
+git rm -f external-repo || true
+
+# Commit the changes
+git add .
+git commit -m "Remove submodule references"
