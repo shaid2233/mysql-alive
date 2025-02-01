@@ -1,6 +1,0 @@
-rm .gitmodules
-git submodule deinit -f external-repo
-rm -rf .git/modules/external-repo
-git rm -f external-repo || true
-git add .
-git commit -m "Remove submodule references"
