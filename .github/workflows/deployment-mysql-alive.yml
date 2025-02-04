@@ -3,7 +3,8 @@ name: update deployment my-sql-alive
 on:
   push:
     branches:
-      - feat-br
+      - dev
+      - main 
 
 jobs:
   job1:
@@ -70,7 +71,7 @@ jobs:
         with:
           repository: shaid2233/k8s-mysql-alive
           token: ${{ secrets.OTHER_REPO_PAT }} 
-          ref: main
+          ref: ${{ github.ref_name }} 
           
 
       - name: Setup yq
@@ -80,9 +81,10 @@ jobs:
       - name: Modify deployment tag
         env:
           UNIQUE_TAG: ${{ needs.job1.outputs.UNIQUE_TAG }}
+          DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
         run: |
           echo "Updating deployment.yaml with tag: $UNIQUE_TAG"
-          yq e ".spec.template.spec.containers[0].image = \"mysql-alive:$UNIQUE_TAG\"" -i deployment.yaml
+          yq e ".spec.template.spec.containers[0].image = \"$DOCKERHUB_USERNAME/mysql-alive:$UNIQUE_TAG\"" -i deployment.yaml
 
 
 
