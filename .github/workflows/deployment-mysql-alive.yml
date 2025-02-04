@@ -63,7 +63,7 @@ jobs:
 
 
   job3:
-    needs: job2 
+    needs: [job1, job2]
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Kubernetes manifest repo
@@ -99,7 +99,7 @@ jobs:
           git status
           git add . 
           git commit -m "Update MySQL image tag to mysql-alive:$UNIQUE_TAG"
-          git push  # Push to the existing branch 'feat-br'
+          git push  
         env:
           GITHUB_TOKEN: ${{ secrets.OTHER_REPO_PAT }}  # GitHub automatically provides this
 
