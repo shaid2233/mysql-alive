@@ -68,54 +68,36 @@ jobs:
       - name: Checkout Kubernetes manifest repo
         uses: actions/checkout@v4
         with:
-          repository: shaid2233/mysql-alive
+          repository: shaid2233/k8s-mysql-alive
           token: ${{ secrets.OTHER_REPO_PAT }} 
-          ref: feat-br
+          ref: main
           
-      - name: Debug - Check File Contents
-        run: cat kubernetes/deployment.yaml
 
       - name: Setup yq
         uses: dcarbone/install-yq-action@v1.3.0
 
-      - name: Verify yq Installation
-        run: |
-          yq --version
-          echo "yq is ready to use!"
 
       - name: Modify deployment tag
         env:
           UNIQUE_TAG: ${{ needs.job1.outputs.UNIQUE_TAG }}
         run: |
           echo "Updating deployment.yaml with tag: $UNIQUE_TAG"
-          # Example of modifying deployment.yaml with `yq`
-          yq e ".spec.template.spec.containers[0].image = \"mysql:$UNIQUE_TAG\"" -i kubernetes/deployment.yaml
+          yq e ".spec.template.spec.containers[0].image = \"mysql-alive:$UNIQUE_TAG\"" -i deployment.yaml
 
 
-
-      - name: Checkout repository
-        uses: actions/checkout@v4
-        with:
-          repository: shaid2233/mysql-alive
-          token: ${{ secrets.OTHER_REPO_PAT }} 
-          ref: feat-br
-          
 
       - name: Set up Git configuration
         run: |
           git config --global user.name "shaid2233"  # Your GitHub username
           git config --global user.email "shaidaniel27@gmail.com"  # Your GitHub email
 
-      - name: Debug - Check File Contents
-        run: cat kubernetes/deployment.yaml
-
 
       - name: Commit and push changes
         run: |
           git status
-          git add kubernetes/deployment.yaml
-          git commit -m "Update MySQL image tag to mysql:$UNIQUE_TAG"
-          git push origin feat-br  # Push to the existing branch 'feat-br'
+          git add . 
+          git commit -m "Update MySQL image tag to mysql-alive:$UNIQUE_TAG"
+          git push  # Push to the existing branch 'feat-br'
         env:
           GITHUB_TOKEN: ${{ secrets.OTHER_REPO_PAT }}  # GitHub automatically provides this
 
