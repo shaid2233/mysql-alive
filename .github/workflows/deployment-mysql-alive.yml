@@ -48,7 +48,7 @@ jobs:
       # Step 3: Build the Docker image
       - name: Build Docker image
         run: |
-          docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/python-app:${{ needs.job1.outputs.UNIQUE_TAG }} .
+          docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/mysql-alive:${{ needs.job1.outputs.UNIQUE_TAG }} .
 
       # Step 4: Push the Docker image to Docker Hub
       - name: Push Docker image to Docker Hub
