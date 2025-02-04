@@ -1,0 +1,21 @@
+name: Setup yq
+
+on:
+  push:
+    branches:
+      - feat-br 
+      - dev      # Adjust branch as needed
+
+jobs:
+  check-yq:
+    runs-on: ubuntu-latest
+    steps:
+      # Step 1: Use setup-yq action to ensure yq is installed
+      - name: 'Setup yq'
+        uses: dcarbone/install-yq-action@v1.3.0
+
+      # Step 2: Verify yq Installation
+      - name: Verify yq Installation
+        run: |
+          yq --version
+          echo "yq is ready to use!"

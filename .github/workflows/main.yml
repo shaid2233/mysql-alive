@@ -10,17 +10,16 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
+    env:
+      DB_HOST: ${{ secrets.DB_HOST }}
+      DB_PORT: ${{ secrets.DB_PORT }}
+      DB_USER: ${{ secrets.DB_USER }}
+      DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+      MYSQL_ROOT_PASSWORD: ${{ secrets.MYSQL_ROOT_PASSWORD }}
+      MYSQL_DATABASE: ${{ secrets.MYSQL_DATABASE }}
 
     steps:
-      - name: Remove existing MySQL container
-        run: |
-          docker rm -f mysql-test || true
-
-               
-      - name: Stop and remove existing Flask container (if exists)
-        run: |
-          docker rm -f flask-container || true
-
+    
       - uses: actions/checkout@v3
 
 
@@ -28,8 +27,9 @@ jobs:
         run: |
           docker run -d \
             --name mysql-test \
-            -e MYSQL_ROOT_PASSWORD=123456 \
-            -e MYSQL_DATABASE=testdb \
+            --network host \
+            -e MYSQL_ROOT_PASSWORD=$DB_PASSWORD \
+            -e MYSQL_DATABASE=$MYSQL_DATABASE \
             -p 3306:3306 \
             mysql:8.0
         
@@ -37,7 +37,7 @@ jobs:
         run: |
           # Wait for MySQL to be ready
           for i in {1..30}; do
-            if docker exec mysql-test mysqladmin ping -h localhost -u root -p123456 --silent; then
+            if docker exec mysql-test mysqladmin ping -h $DB_HOST -u $DB_USER -p$DB_PASSWORD --silent; then
               echo "MySQL is ready"
               break
             fi
@@ -53,9 +53,7 @@ jobs:
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install pytest
-          # Add any other requirements your project needs
-          # pip install -r requirements.txt
+          pip install -r requirements.txt
 
       - name: Build Docker image
         run: |
@@ -68,21 +66,8 @@ jobs:
       
       - name: Start Flask app in the background
         run: |
-          docker run -d \
-            --name flask-container \
-            -p 5000:5000 \
-            flask-app
-
-      - name: Test Flask app
-        run: |
-          curl http://host.docker.internal/is-db-alive
-
+          docker run -d --network host -p 5000:5000 --name flask-container flask-app
 
       - name: Run tests
-        env:
-          DB_HOST: localhost
-          DB_PORT: 3306
-          DB_USER: root
-          DB_PASSWORD: 123456
         run: |
           pytest tests/test_app.py

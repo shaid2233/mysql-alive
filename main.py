@@ -8,8 +8,8 @@ app = Flask(__name__)
 DB_HOST = os.getenv("DB_HOST", "localhost")
 DB_PORT = os.getenv("DB_PORT", "3306")
 DB_USER = os.getenv("DB_USER", "root")  # Optional, default user
-DB_PASSWORD = os.getenv("DB_PASSWORD", "")  # Optional, default password
-DB_NAME = os.getenv("DB_NAME", "test")  # Optional, default database
+DB_PASSWORD = os.getenv("DB_PASSWORD", "123456")  # Optional, default password
+DB_NAME = os.getenv("DB_NAME", "testdb")  # Optional, default database
 
 
 @app.route("/is-db-alive", methods=["GET"])
@@ -31,3 +31,4 @@ def is_db_alive():
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000)
+

@@ -1,0 +1,26 @@
+name: Kubernetes CI
+
+on:
+  pull_request:
+    branches: [main, dev]
+
+jobs:
+  kubernetes-test:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    
+    - name: Setup Kind Cluster
+      uses: helm/kind-action@v1.5.0
+      with:
+        version: v0.20.0
+        cluster_name: test-cluster
+
+    - name: Deploy Manifest
+      run: |
+        kubectl apply -f kubernetes/deployment.yaml
+
+    - name: Verify Deployment
+      run: |
+        kubectl get deployments
+        kubectl get pods
